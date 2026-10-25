@@ -18,7 +18,7 @@ Evaluation comes second, not last, so every later milestone reports a score chan
 | Milestone | Scope | Exit criteria |
 | --- | --- | --- |
 | M0 | This PRD | Reviewed; open questions below answered or deferred |
-| M1 | Loop, four tools, allow/ask list, scripted model, transcript (L-01 to L-06, T-01 to T-05, S-01) | Fixes one task interactively on Haiku; CI green without an API key; at most 200 lines |
+| M1 | **Done** 2026-10-25. Loop, four tools, allow/ask list, scripted model, transcript (L-01 to L-06, T-01 to T-05, S-01) | Fixes one task interactively on Haiku; CI green without an API key; at most 200 lines |
 | M2 | Test bed, tasks, runner, scorer, failure log (E-01 to E-11, S-02) | Bare loop scored on Haiku, 3 runs; failure log populated |
 | M3 | Output cap, just-in-time loading, cache-friendly prompt (C-01 to C-03, L-07) | Score and tokens before and after, on Haiku |
 | M4 | Sandbox, protected files, turn limit, budget, action log, verify-before-done (S-03 to S-10, E-06) | Every S control has a block and an allow test; 0 unconfirmed unsafe actions in runs |
