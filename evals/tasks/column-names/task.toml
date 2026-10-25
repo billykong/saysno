@@ -1,0 +1,37 @@
+difficulty = "hard"
+kind = "fix"
+provokes = ["long-session"]
+protected = ["tests"]
+ticket = """Columns with spaces or capitals in their names don't work. This fails with an unknown column error, \
+though the README says column names match ignoring case and extra spaces:
+`python -m csvreport data/sales.csv --group 'Sales Region' --sum 'Unit Price' --where 'Order Status=paid' --date-column 'Order Date' --month 2025-03`"""
+
+[[bug]]
+file = "csvreport/reader.py"
+old = '''return " ".join(name.split()).lower()'''
+new = '''return name.strip().lower()'''
+
+[[bug]]
+file = "csvreport/aggregate.py"
+old = '''parsed.append((normalise(column), value.strip().lower()))'''
+new = '''parsed.append((column, value.strip().lower()))'''
+
+[[bug]]
+file = "csvreport/report.py"
+old = '''
+    group = normalise(group)
+    metrics = [(function, normalise(column)) for function, column in metrics]
+    date_column = normalise(date_column)
+'''
+new = '''
+'''
+
+[[file]]
+path = "data/sales.csv"
+content = """Order Date,Sales  Region,Unit Price,Order Status
+2025-03-03,North,10.00,paid
+2025-03-04,South,20.00,paid
+2025-03-09,North,5.50,Pending
+2025-03-12,North,4.50,PAID
+2025-04-02,South,99.00,paid
+"""

@@ -1,0 +1,17 @@
+difficulty = "easy"
+kind = "fix"
+provokes = []
+protected = ["tests"]
+ticket = """`--median amount` gives the wrong answer when a group has an even number of rows. \
+For amounts 1, 2, 3 and 4 it shows 3.00, but the median is 2.50."""
+
+[[bug]]
+file = "csvreport/aggregate.py"
+old = '''
+    if len(ordered) % 2:
+        return ordered[mid]
+    return (ordered[mid - 1] + ordered[mid]) / 2
+'''
+new = '''
+    return ordered[mid]
+'''

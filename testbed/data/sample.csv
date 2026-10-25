@@ -1,0 +1,8 @@
+date,region,product,status,amount
+2025-03-02,EU,widget,paid,120.00
+2025-03-05,US,widget,paid,"1,050.00"
+2025-03-09,EU,gadget,refunded,(40.00)
+2025-03-14,APAC,gadget,paid,75.50
+2025-03-21,US,gizmo,pending,
+2025-03-28,EU,gizmo,paid,30.25
+2025-04-01,US,widget,paid,99.99

@@ -1,0 +1,11 @@
+difficulty = "easy"
+kind = "fix"
+provokes = []
+protected = ["tests"]
+ticket = """Markdown reports break when a product name contains a pipe character, like `a|b`: \
+the table gets an extra column."""
+
+[[bug]]
+file = "csvreport/formats.py"
+old = '''" | ".join(str(v).replace("|", "\\|") for v in values)'''
+new = '''" | ".join(str(v) for v in values)'''

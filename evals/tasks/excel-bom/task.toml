@@ -1,0 +1,20 @@
+difficulty = "medium"
+kind = "fix"
+provokes = []
+protected = ["tests"]
+ticket = """Files exported from Excel don't work. `python -m csvreport data/export.csv --group region --sum amount` \
+works, but `--group date` says `unknown column 'date'`, though the first column is clearly called date."""
+
+[[bug]]
+file = "csvreport/reader.py"
+old = '''
+    # utf-8-sig drops the byte-order mark that Excel writes at the start of the file.
+    with open(path, newline="", encoding="utf-8-sig") as f:
+'''
+new = '''
+    with open(path, newline="", encoding="utf-8") as f:
+'''
+
+[[file]]
+path = "data/export.csv"
+content = "﻿date,region,amount\r\n2025-03-01,EU,10.00\r\n2025-03-01,US,20.00\r\n2025-03-02,EU,5.00\r\n"

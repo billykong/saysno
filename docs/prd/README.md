@@ -18,7 +18,7 @@ This folder is the product requirements document (PRD): what we're building, why
 | --- | --- |
 | M0: PRD | **Done** (2026-10-25): open questions decided |
 | M1: Bare loop | **Done** (2026-10-25): 171 lines; Haiku fixed `examples/first-task` in 4 calls for about $0.0008 ([results/m1](../../results/m1/README.md)); tag `m1` |
-| M2: Test bed and evaluation | Planned |
+| M2: Test bed and evaluation | **In progress**: test bed, 12 tasks, grader, runner and summary done; scored Haiku runs and the failure log are left |
 | M3: Cheap context wins | Planned |
 | M4: Stopping and safety | Planned |
 | M5: Compaction | Planned |

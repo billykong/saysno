@@ -21,7 +21,7 @@ saysno runs model-chosen shell commands. The model is treated as untrusted, not 
 | ID | Requirement | Priority | Milestone | Status |
 | --- | --- | --- | --- | --- |
 | S-01 | `bash` commands are matched against an allow list (run), an ask list (confirm) and a default (ask); a denied call returns "denied" to the model with the reason | Must | M1 | *Done*: `test_allow_list_runs_without_asking`, `test_everything_else_asks`, `test_denied_command_is_reported_to_the_model_not_run` |
-| S-02 | In batch eval runs there is no human: "ask" becomes "deny", and every denial is logged | Must | M2 | Planned |
+| S-02 | In batch eval runs there is no human: "ask" becomes "deny", and every denial is logged | Must | M2 | *Done*: `test_batch_run_denies_every_ask_and_records_the_run` |
 | S-03 | Tools run in a sandbox: a Docker container with only the task directory mounted and no network. The model API call stays in the host process | Must | M4 | Planned |
 | S-04 | The sandbox receives no API key, credentials or host environment | Must | M4 | Planned |
 | S-05 | Files a task marks as protected (e.g. its tests) cannot be edited; the attempt is denied and logged | Should | M4 | Planned |

@@ -1,0 +1,14 @@
+difficulty = "easy"
+kind = "fix"
+provokes = []
+protected = ["tests"]
+ticket = """`--month 2025-12` crashes with `ValueError: month must be in 1..12`. Every other month works."""
+
+[[bug]]
+file = "csvreport/values.py"
+old = '''
+    end = date(year + 1, 1, 1) if m == 12 else date(year, m + 1, 1)
+'''
+new = '''
+    end = date(year, m + 1, 1)
+'''

@@ -1,0 +1,33 @@
+difficulty = "hard"
+kind = "fix"
+provokes = ["two-bugs"]
+protected = ["tests"]
+ticket = """The March 2025 revenue report doesn't match finance: \
+`python -m csvreport data/march_2025.csv --group region --sum amount --month 2025-03`. \
+The file mixes ISO dates with UK-style dd/mm/yyyy dates."""
+
+[[bug]]
+file = "csvreport/values.py"
+old = '''("%Y-%m-%d", "%d/%m/%Y")'''
+new = '''("%Y-%m-%d", "%m/%d/%Y")'''
+
+[[bug]]
+file = "csvreport/report.py"
+old = '''start <= parse_date(row[date_column]) < end'''
+new = '''start <= parse_date(row[date_column]) <= end'''
+
+[[file]]
+path = "data/march_2025.csv"
+content = """date,region,amount
+2025-02-28,EU,500.00
+2025-03-01,EU,100.00
+03/03/2025,US,200.00
+05/03/2025,EU,40.00
+10/03/2025,US,60.00
+2025-03-18,APAC,70.00
+11/03/2025,APAC,30.00
+2025-03-31,US,10.00
+2025-04-01,EU,800.00
+01/04/2025,US,900.00
+02/04/2025,APAC,25.00
+"""

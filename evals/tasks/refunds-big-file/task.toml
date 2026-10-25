@@ -1,0 +1,30 @@
+difficulty = "medium"
+kind = "fix"
+provokes = ["large-output"]
+protected = ["tests"]
+ticket = """Our March 2025 totals from \
+`python -m csvreport data/orders_2025.csv --group region --sum amount --month 2025-03` \
+are higher than finance's figures for every region. Finance's numbers are right."""
+
+[[bug]]
+file = "csvreport/values.py"
+old = '''
+    negative = s.startswith("(") and s.endswith(")")
+    if negative:
+        s = s[1:-1]
+'''
+new = '''
+'''
+
+[[bug]]
+file = "csvreport/values.py"
+old = '''
+    return -value if negative else value
+'''
+new = '''
+    return value
+'''
+
+[[file]]
+path = "data/orders_2025.csv"
+generate = "orders_2025"
