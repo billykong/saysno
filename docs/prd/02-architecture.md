@@ -24,37 +24,37 @@ Every later feature refines one of these four stages. Each post names the stage 
 
 | Component | Contents |
 | --- | --- |
-| `saysno/loop.py` | The loop: stages 1-4 |
+| `saysno/loop.py` | The loop: stages 1-4, model settings, transcript |
 | `saysno/tools.py` | Tool definitions and implementations |
 | `saysno/policy.py` | Permission rules (from M1: allow/ask list; grows in M4) |
-| `saysno/cli.py` | Interactive REPL |
-| `evals/` | Task set, runner, scorer ([04-evaluation.md](04-evaluation.md)) |
-| `testbed/` | The planted-bug project |
-| `tests/` | Unit tests and scripted-model tests |
-
-Names are a starting point; the M1 commit may adjust them.
+| `saysno/cli.py` | Interactive REPL (`uv run saysno`) |
+| `examples/first-task/` | The one-bug task M1 is tried on |
+| `evals/` | Task set, runner, scorer ([04-evaluation.md](04-evaluation.md)), from M2 |
+| `testbed/` | The planted-bug CSV report tool, from M2 |
+| `tests/` | Unit tests and scripted-model tests (`tests/scripted.py`) |
+| `scripts/loc.py` | Agent line count (L-03) |
 
 ## L - Loop
 
 | ID | Requirement | Priority | Milestone | Status |
 | --- | --- | --- | --- | --- |
-| L-01 | Python 3.12+; the Anthropic Python SDK is the only third-party runtime dependency | Must | M1 | Planned |
-| L-02 | The loop implements the four stages above and ends when the model replies without a tool call | Must | M1 | Planned |
-| L-03 | M1 agent is at most 200 non-blank, non-comment lines; CI enforces it at M1 and reports the count afterwards | Must | M1 | Planned |
-| L-04 | The model and thinking setting are parameters: `claude-haiku-5-5` without thinking by default; `claude-opus-5-5` with adaptive thinking selectable | Must | M1 | Planned |
-| L-05 | A scripted model replays a fixed sequence of replies, so the loop and tools are tested without the API | Must | M1 | Planned |
-| L-06 | Every run writes a transcript (messages, tool calls, results, token usage) as JSON Lines | Must | M1 | Planned |
+| L-01 | Python 3.12+; the Anthropic Python SDK is the only third-party runtime dependency | Must | M1 | *Done*: `pyproject.toml`; CI `uv sync --locked` |
+| L-02 | The loop implements the four stages above and ends when the model replies without a tool call | Must | M1 | *Done*: `test_scripted_fix_of_the_example_task` |
+| L-03 | M1 agent is at most 200 non-blank, non-comment lines; CI enforces it at M1 and reports the count afterwards | Must | M1 | *Done*: `test_agent_fits_the_m1_line_budget` (171 lines) |
+| L-04 | The model and thinking setting are parameters: `claude-haiku-5-5` without thinking by default; `claude-opus-5-5` with adaptive thinking selectable | Must | M1 | *Done*: `test_model_settings_per_l04` |
+| L-05 | A scripted model replays a fixed sequence of replies, so the loop and tools are tested without the API | Must | M1 | *Done*: `tests/scripted.py`, used by `tests/test_loop.py` |
+| L-06 | Every run writes a transcript (messages, tool calls, results, token usage) as JSON Lines | Must | M1 | *Done*: `test_scripted_fix_of_the_example_task` checks the event sequence |
 | L-07 | Each feature after M1 can be switched off, so the bare loop stays runnable for the final comparison | Must | M3 | Planned |
 
 ## T - Tools
 
 | ID | Requirement | Priority | Milestone | Status |
 | --- | --- | --- | --- | --- |
-| T-01 | `read_file(path, offset, limit)`: numbered lines, a range at a time | Must | M1 | Planned |
-| T-02 | `edit_file(path, old, new)`: exact-string replace; fails if `old` is absent or occurs more than once, and says which | Must | M1 | Planned |
-| T-03 | `bash(command)`: runs in the task's working directory with a timeout; subject to S-area rules | Must | M1 | Planned |
-| T-04 | `grep(pattern, path)`: matches with file and line number | Must | M1 | Planned |
-| T-05 | Tool paths are confined to the task's working directory; a path outside it is an error, not a silent fix | Must | M1 | Planned |
+| T-01 | `read_file(path, offset, limit)`: numbered lines, a range at a time | Must | M1 | *Done*: `test_read_file_numbers_lines_and_says_what_is_left` |
+| T-02 | `edit_file(path, old, new)`: exact-string replace; fails if `old` is absent or occurs more than once, and says which | Must | M1 | *Done*: `test_edit_file_replaces_a_unique_match`, `test_edit_file_fails_unless_exactly_one_match` |
+| T-03 | `bash(command)`: runs in the task's working directory with a timeout; subject to S-area rules | Must | M1 | *Done*: `test_bash_runs_in_the_project_with_exit_code` (timeout 120 s) |
+| T-04 | `grep(pattern, path)`: matches with file and line number | Must | M1 | *Done*: `test_grep_reports_path_and_line` |
+| T-05 | Tool paths are confined to the task's working directory; a path outside it is an error, not a silent fix | Must | M1 | *Done*: `test_paths_outside_the_project_are_refused` |
 | T-06 | Tool errors say what went wrong and what to try instead | Should | M2+ (from the failure log) | Planned |
 | T-07 | `write_file` for new files only; refuses to overwrite | Could | from the failure log | Planned |
 

@@ -1,0 +1,23 @@
+[project]
+name = "saysno"
+version = "0.1.0"
+description = "A minimal coding agent, built up one failure at a time, to show the harness, not the model, is what says no."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=2.3.0",
+]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[project.scripts]
+saysno = "saysno.cli:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
