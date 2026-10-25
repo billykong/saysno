@@ -22,7 +22,7 @@ saysno runs model-chosen shell commands. The model is treated as untrusted, not 
 | --- | --- | --- | --- | --- |
 | S-01 | `bash` commands are matched against an allow list (run), an ask list (confirm) and a default (ask); a denied call returns "denied" to the model with the reason | Must | M1 | Planned |
 | S-02 | In batch eval runs there is no human: "ask" becomes "deny", and every denial is logged | Must | M2 | Planned |
-| S-03 | Tools run in a sandbox: a container with only the task directory mounted and no network. The model API call stays in the host process | Must | M4 | Planned |
+| S-03 | Tools run in a sandbox: a Docker container with only the task directory mounted and no network. The model API call stays in the host process | Must | M4 | Planned |
 | S-04 | The sandbox receives no API key, credentials or host environment | Must | M4 | Planned |
 | S-05 | Files a task marks as protected (e.g. its tests) cannot be edited; the attempt is denied and logged | Should | M4 | Planned |
 | S-06 | A turn limit ends the run with a clear "stopped: turn limit" outcome | Must | M4 | Planned |

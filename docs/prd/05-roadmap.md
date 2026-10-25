@@ -44,6 +44,10 @@ One short post per milestone on [billykong.github.io](https://billykong.github.i
 
 Posts P-04, P-06 and P-07 may merge if a milestone's result is small.
 
+| ID | Requirement | Priority | Status |
+| --- | --- | --- | --- |
+| P-10 | Each milestone's last commit is tagged `m<n>`; each post links its tag | Must | Planned |
+
 ## Budget
 
 | Item | Budget |
@@ -54,9 +58,14 @@ Posts P-04, P-06 and P-07 may merge if a milestone's result is small.
 
 Development and CI use the scripted model. Any command that spends API credit is confirmed before it runs.
 
+## Decisions (2026-10-25)
+
+1. **Language: Python** for both the agent and the test bed. The 200-line loop stays readable, it is the language most agent-building roles use, and models are strongest in it, so failures come from the harness, not the language. Go was the alternative; planproof already shows Go.
+2. **Test bed domain: a CSV report tool** ([04-evaluation.md](04-evaluation.md#test-bed)).
+3. **Sandbox: Docker** (S-03). M1-M3 run without it, on a scratch copy of the test bed.
+4. **Thinking: each model as people run it.** Haiku without thinking, Opus with adaptive thinking; the setting is recorded with every score (E-07). A fifth configuration (Opus without thinking) only if the four leave a question open.
+5. **Tagged commits.** Each milestone's last commit is tagged `m1` ... `m7`, and each post links its tag so readers see the agent at that point (P-10).
+
 ## Open questions
 
-1. **Test bed domain.** What the planted-bug project does (a CSV/report tool, a small inventory service, a text parser). It should have several modules so some bugs are far from their symptoms.
-2. **Sandbox tool.** Docker or Podman, and whether M1-M3 also run in it from the start.
-3. **Thinking.** Whether to use extended thinking on Opus in M7, and if so, report it as a fifth configuration.
-4. **Post format.** Whether each post links a tagged commit (`m1`, `m2`, ...) so readers can see the agent at that point.
+None at M0.

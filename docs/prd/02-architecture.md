@@ -41,7 +41,7 @@ Names are a starting point; the M1 commit may adjust them.
 | L-01 | Python 3.12+; the Anthropic Python SDK is the only third-party runtime dependency | Must | M1 | Planned |
 | L-02 | The loop implements the four stages above and ends when the model replies without a tool call | Must | M1 | Planned |
 | L-03 | M1 agent is at most 200 non-blank, non-comment lines; CI enforces it at M1 and reports the count afterwards | Must | M1 | Planned |
-| L-04 | The model is a parameter: `claude-haiku-5-5` by default, `claude-opus-5-5` selectable | Must | M1 | Planned |
+| L-04 | The model and thinking setting are parameters: `claude-haiku-5-5` without thinking by default; `claude-opus-5-5` with adaptive thinking selectable | Must | M1 | Planned |
 | L-05 | A scripted model replays a fixed sequence of replies, so the loop and tools are tested without the API | Must | M1 | Planned |
 | L-06 | Every run writes a transcript (messages, tool calls, results, token usage) as JSON Lines | Must | M1 | Planned |
 | L-07 | Each feature after M1 can be switched off, so the bare loop stays runnable for the final comparison | Must | M3 | Planned |

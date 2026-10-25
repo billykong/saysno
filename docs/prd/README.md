@@ -16,7 +16,7 @@ This folder is the product requirements document (PRD): what we're building, why
 
 | Milestone | Status |
 | --- | --- |
-| M0: PRD | **Draft** (2026-10-25) |
+| M0: PRD | **Done** (2026-10-25): open questions decided |
 | M1: Bare loop | Planned |
 | M2: Test bed and evaluation | Planned |
 | M3: Cheap context wins | Planned |
