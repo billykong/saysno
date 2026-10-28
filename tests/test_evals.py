@@ -91,3 +91,9 @@ def test_committed_results_are_current(results):
 
 def test_no_api_key_in_results():
     assert not [p for p in (ROOT / "results").rglob("*") if p.is_file() and b"sk-ant-" in p.read_bytes()]
+
+
+def test_budget_stops_every_run(tmp_path):
+    spend = runner.Spend(budget=0.000001)
+    record = runner.run_one(load("median-even"), "haiku", 1, tmp_path, make_client=Forever, spend=spend)
+    assert record["stop"] == "budget" and record["calls"] == 1 and spend.over

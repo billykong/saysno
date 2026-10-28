@@ -12,6 +12,7 @@ import argparse
 import json
 import os
 import tempfile
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -38,19 +39,41 @@ class EvalCap(Exception):
     pass
 
 
+class Spend:
+    """Total spend across all runs; once over the budget, every run stops (stop "budget")."""
+
+    def __init__(self, budget=None):
+        self.budget, self.total, self.lock = budget, 0.0, threading.Lock()
+
+    def add(self, amount):
+        with self.lock:
+            self.total += amount
+
+    @property
+    def over(self):
+        return self.budget is not None and self.total >= self.budget
+
+
+class OverBudget(Exception):
+    pass
+
+
 class CappedClient:
     """Wraps the API client and stops a run that goes over the cap."""
 
-    def __init__(self, client):
-        self.client, self.messages = client, self
+    def __init__(self, client, spend=None):
+        self.client, self.messages, self.spend = client, self, spend or Spend()
         self.calls = self.input_tokens = 0
 
     def create(self, **params):
+        if self.spend.over:
+            raise OverBudget(f"${self.spend.total:.2f} spent")
         if self.calls >= MAX_CALLS or self.input_tokens >= MAX_INPUT_TOKENS:
             raise EvalCap(f"{self.calls} calls, {self.input_tokens} input tokens")
         reply = self.client.messages.create(**params)
         self.calls += 1
         self.input_tokens += reply.usage.input_tokens
+        self.spend.add(cost(params["model"], reply.usage.to_dict()))
         return reply
 
 
@@ -91,7 +114,7 @@ def redact(path):
         path.write_text(text.replace(key, "[REDACTED]"))
 
 
-def run_one(task, model, run, out, make_client=lambda: anthropic.Anthropic(max_retries=6)):
+def run_one(task, model, run, out, make_client=lambda: anthropic.Anthropic(max_retries=6), spend=None):
     transcript = out / "transcripts" / model / f"{task.id}-{run}.jsonl"
     transcript.parent.mkdir(parents=True, exist_ok=True)
     transcript.unlink(missing_ok=True)
@@ -99,13 +122,15 @@ def run_one(task, model, run, out, make_client=lambda: anthropic.Anthropic(max_r
     with tempfile.TemporaryDirectory(prefix="saysno-") as tmp:
         workspace = build(task, Path(tmp) / task.id)
         before = snapshot(task, workspace)
-        client = CappedClient(make_client())
+        client = CappedClient(make_client(), spend)
         agent = Agent(client, workspace, model, ask=lambda name, args: False,
                       transcript=transcript, show=lambda text: None)
         try:
             stop = agent.send(task.ticket).stop_reason
         except EvalCap:
             stop = "eval-cap"
+        except OverBudget:
+            stop = "budget"
         except anthropic.APIError as e:
             stop = f"api-error: {type(e).__name__}"
         agent.transcript.close()
@@ -129,18 +154,28 @@ def main():
     parser.add_argument("--out", required=True, help="results directory, e.g. results/m2")
     parser.add_argument("--task", action="append", help="task id; default all")
     parser.add_argument("--workers", type=int, default=4)
+    parser.add_argument("--budget", type=float, help="stop every run once this many USD are spent")
     args = parser.parse_args()
+    spend = Spend(args.budget)
 
     out = ROOT / args.out
     out.mkdir(parents=True, exist_ok=True)
     tasks = [load(t) for t in args.task] if args.task else load_all()
     jobs = [(t, r) for r in range(1, args.runs + 1) for t in tasks]
     with ThreadPoolExecutor(args.workers) as pool, open(out / "runs.jsonl", "a") as log:
-        for record in pool.map(lambda job: run_one(job[0], args.model, job[1], out), jobs):
+        def job(task_run):
+            if spend.over:
+                return None  # not started: the budget was used up
+            return run_one(task_run[0], args.model, task_run[1], out, spend=spend)
+
+        for record in pool.map(job, jobs):
+            if record is None or record["stop"] == "budget":
+                continue  # a run cut short by the budget is not a result
             log.write(json.dumps(record) + "\n")
             log.flush()
             print(f"{record['task']:22} run {record['run']}  {'PASS' if record['passed'] else 'fail'}  "
                   f"{record['calls']:3} calls  ${record['cost_usd']:.4f}  {record['stop']}  {'; '.join(record['reasons'])}")
+    print(f"spent ${spend.total:.4f}" + (f" of ${spend.budget:.2f}: BUDGET REACHED, runs stopped" if spend.over else ""))
 
 
 if __name__ == "__main__":
