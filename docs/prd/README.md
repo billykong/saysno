@@ -18,7 +18,7 @@ This folder is the product requirements document (PRD): what we're building, why
 | --- | --- |
 | M0: PRD | **Done** (2026-10-25): open questions decided |
 | M1: Bare loop | **Done** (2026-10-25): 171 lines; Haiku fixed `examples/first-task` in 4 calls for about $0.0008 ([results/m1](../../results/m1/README.md)); tag `m1` |
-| M2: Test bed and evaluation | **Done** (2026-10-28): bare loop on Haiku **28/36** for $0.10 ([summary](../../results/m2/summary.md)); 91% of shell calls denied, tests ran in 3 of 36 runs ([failure log](../../results/m2/failure-log.md)); tag `m2`. Side comparison: DeepSeek-V4.1-Flash 30/36 for $0.34 |
+| M2: Test bed and evaluation | **Done** (2026-10-28): bare loop on Haiku **30/36** for $0.10 ([summary](../../results/m2/summary.md)); 91% of shell calls denied, tests ran in 3 of 36 runs ([failure log](../../results/m2/failure-log.md)); tag `m2`. Side comparison: DeepSeek-V4.1-Flash 33/36 for $0.34. Scores are on 12 tasks after replacing a broken no-fix task (F-06) |
 | M3: Cheap context wins | Planned |
 | M4: Stopping and safety | Planned |
 | M5: Compaction | Planned |

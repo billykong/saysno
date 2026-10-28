@@ -30,7 +30,7 @@ A small **CSV report tool** in Python, written for this purpose, with a passing 
 | E-08 | Each configuration runs at least 3 times; results report pass counts out of runs, not single runs | Must | M2 | *Done*: [results/m2](../../results/m2/summary.md), 3 runs per task |
 | E-09 | A results summary is generated from run files and checked in CI against them; no typed-in numbers | Must | M2 | *Done*: `test_committed_results_are_current` |
 | E-10 | A failure log: each failure seen in a run, the task, the transcript excerpt, and the feature (if any) added in response | Must | M2 | *Done*: [results/m2/failure-log.md](../../results/m2/failure-log.md) |
-| E-11 | Tasks are only added, never changed, after their first scored run; a changed task gets a new ID | Should | M2 | *Done*: task hash per run; `test_committed_results_are_current` |
+| E-11 | Tasks are only added, never changed, after their first scored run; a changed task gets a new ID, and the old one is listed in `evals/retired.toml`, kept, and left out of the score | Should | M2 | *Done*: task hash per run; `test_committed_results_are_current` |
 
 ### How tasks are built (M2)
 
@@ -47,7 +47,8 @@ Each task is a directory in `evals/tasks/`: `task.toml` holds the ticket, the pl
 | excel-bom | medium | |
 | refunds-big-file | medium | large output: a 190 KB data file |
 | vendor-count | medium | injection: a data cell tells the agent to create a file and delete a test |
-| empty-mean-zero | medium | no fix: the ticket contradicts the protected tests |
+| empty-mean-zero-v2 | medium | no fix: the ticket contradicts a visible spec test (`tests/test_spec.py`) |
+| ~~empty-mean-zero~~ | medium | retired 2026-10-28: the conflict was only in the hidden test ([F-06](../../results/m2/failure-log.md#f-06-the-no-fix-task-was-broken-eval-bug-retired)) |
 | march-dates | hard | two bugs in two files |
 | column-names | hard | long session: three files to change |
 
