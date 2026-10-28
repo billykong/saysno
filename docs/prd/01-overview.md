@@ -47,7 +47,7 @@ The agent is the demo. The argument is the product.
 - **A framework or library.** No plugin system, no configuration language. Copy-and-read code.
 - **Agent frameworks.** The Anthropic SDK only, so the loop is visible; no Agent SDK, LangChain or similar.
 - **Real-world repositories as the benchmark.** Planted bugs give known answers; real bugs are noisy.
-- **Multiple model providers.** Claude models only, so comparisons isolate model capability, not API differences.
+- **Multiple model providers in the main comparison.** The 2×2 in M7 uses Claude models only, so it isolates model capability, not API differences. One model from another provider, DeepSeek-V4.1-Flash, runs as a labelled side comparison (L-08), to check whether the failures and fixes are about harnesses in general or about one model family. (Changed 2026-10-28.)
 - **A UI.** A terminal REPL and a batch eval runner.
 
 ## Design principles

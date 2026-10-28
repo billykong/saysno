@@ -44,6 +44,7 @@ Every later feature refines one of these four stages. Each post names the stage 
 | L-04 | The model and thinking setting are parameters: `claude-haiku-5-5` without thinking by default; `claude-opus-5-5` with adaptive thinking selectable | Must | M1 | *Done*: `test_model_settings_per_l04` |
 | L-05 | A scripted model replays a fixed sequence of replies, so the loop and tools are tested without the API | Must | M1 | *Done*: `tests/scripted.py`, used by `tests/test_loop.py` |
 | L-06 | Every run writes a transcript (messages, tool calls, results, token usage) as JSON Lines | Must | M1 | *Done*: `test_scripted_fix_of_the_example_task` checks the event sequence |
+| L-08 | `deepseek-flash` (DeepSeek-V4.1-Flash) runs through DeepSeek's Anthropic-compatible API with the same loop, prompt and tools, configured like Haiku (thinking off, effort high); key from `DEEPSEEK_API_KEY`. Differences are recorded: DeepSeek ignores `is_error` on tool results and caches prompts automatically | Should | M2 | *Done*: `test_other_providers_get_their_own_endpoint_and_key` |
 | L-07 | Each feature after M1 can be switched off, so the bare loop stays runnable for the final comparison | Must | M3 | Planned |
 
 ## T - Tools

@@ -20,6 +20,7 @@ from pathlib import Path
 import anthropic
 
 from saysno.loop import MODELS, Agent
+from saysno.loop import make_client as _client
 
 from .grade import grade, snapshot
 from .tasks import ROOT, build, load, load_all, task_hash
@@ -32,6 +33,8 @@ MAX_INPUT_TOKENS = 3_000_000
 PRICES = {
     "claude-haiku-5-5": {"input": 0.10, "output": 0.50, "long_input": 0.50, "long_output": 2.50, "long_from": 100_000},
     "claude-opus-5-5": {"input": 4.00, "output": 20.00},
+    # DeepSeek peak prices (off-peak is half), October 2026. It caches prompts automatically.
+    "deepseek-flash": {"input": 0.30, "output": 1.20, "cache_read": 0.006},
 }
 
 
@@ -82,7 +85,8 @@ def cost(model_id, usage):
     prompt = usage["input_tokens"] + (usage.get("cache_read_input_tokens") or 0)
     long = "long_from" in p and prompt > p["long_from"]
     i, o = (p["long_input"], p["long_output"]) if long else (p["input"], p["output"])
-    return (usage["input_tokens"] * i + (usage.get("cache_read_input_tokens") or 0) * i * 0.1
+    cache_read = p.get("cache_read", i * 0.1)
+    return (usage["input_tokens"] * i + (usage.get("cache_read_input_tokens") or 0) * cache_read
             + usage["output_tokens"] * o) / 1e6
 
 
@@ -108,13 +112,15 @@ def measure(model_id, transcript):
 
 def redact(path):
     """Keep any API key the agent may have printed out of committed transcripts."""
-    key = os.environ.get("ANTHROPIC_API_KEY")
     text = path.read_text()
-    if key and key in text:
-        path.write_text(text.replace(key, "[REDACTED]"))
+    for name in ("ANTHROPIC_API_KEY", "DEEPSEEK_API_KEY"):
+        key = os.environ.get(name)
+        if key and key in text:
+            text = text.replace(key, "[REDACTED]")
+    path.write_text(text)
 
 
-def run_one(task, model, run, out, make_client=lambda: anthropic.Anthropic(max_retries=6), spend=None):
+def run_one(task, model, run, out, make_client=None, spend=None):
     transcript = out / "transcripts" / model / f"{task.id}-{run}.jsonl"
     transcript.parent.mkdir(parents=True, exist_ok=True)
     transcript.unlink(missing_ok=True)
@@ -122,7 +128,7 @@ def run_one(task, model, run, out, make_client=lambda: anthropic.Anthropic(max_r
     with tempfile.TemporaryDirectory(prefix="saysno-") as tmp:
         workspace = build(task, Path(tmp) / task.id)
         before = snapshot(task, workspace)
-        client = CappedClient(make_client(), spend)
+        client = CappedClient(make_client() if make_client else _client(model, max_retries=6), spend)
         agent = Agent(client, workspace, model, ask=lambda name, args: False,
                       transcript=transcript, show=lambda text: None)
         try:

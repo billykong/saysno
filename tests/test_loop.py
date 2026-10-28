@@ -3,7 +3,7 @@ import shutil
 import subprocess
 from pathlib import Path
 
-from saysno.loop import MODELS, Agent
+from saysno.loop import MODELS, Agent, make_client
 from scripted import ScriptedClient, text, tool
 
 EXAMPLE = Path(__file__).parent.parent / "examples" / "first-task"
@@ -70,3 +70,10 @@ def test_model_settings_per_l04(tmp_path):
     assert client.requests[0]["model"] == "claude-haiku-5-5"
     assert client.requests[0]["thinking"] == {"type": "disabled"}
     assert MODELS["opus"]["thinking"] == {"type": "adaptive"}
+    assert MODELS["deepseek-flash"]["thinking"] == {"type": "disabled"}
+
+
+def test_other_providers_get_their_own_endpoint_and_key(monkeypatch):
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "test-key")
+    client = make_client("deepseek-flash")
+    assert str(client.base_url).startswith("https://api.deepseek.com/anthropic") and client.api_key == "test-key"

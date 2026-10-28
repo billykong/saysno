@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 
 import pytest
@@ -109,6 +110,7 @@ def test_cost():
     assert runner.cost("claude-haiku-5-5", {"input_tokens": 50_000, "output_tokens": 1000}) == pytest.approx(0.0055)
     assert runner.cost("claude-haiku-5-5", usage) == pytest.approx(3.0)  # over 100K: long-prompt price
     assert runner.cost("claude-opus-5-5", usage) == pytest.approx(24.0)
+    assert runner.cost("deepseek-flash", {**usage, "cache_read_input_tokens": 1_000_000}) == pytest.approx(1.506)
 
 
 RESULTS = sorted(p.parent for p in (ROOT / "results").glob("*/runs.jsonl"))
@@ -124,7 +126,8 @@ def test_committed_results_are_current(results):
 
 
 def test_no_api_key_in_results():
-    assert not [p for p in (ROOT / "results").rglob("*") if p.is_file() and b"sk-ant-" in p.read_bytes()]
+    keys = [b"sk-ant-"] + [os.environ[k].encode() for k in ("ANTHROPIC_API_KEY", "DEEPSEEK_API_KEY") if os.environ.get(k)]
+    assert not [p for p in (ROOT / "results").rglob("*") if p.is_file() and any(k in p.read_bytes() for k in keys)]
 
 
 def test_budget_stops_every_run(tmp_path):

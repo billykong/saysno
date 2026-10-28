@@ -1,7 +1,10 @@
 """The agent loop: build context, call the model, check and run tools, append, repeat."""
 
 import json
+import os
 from datetime import datetime, timezone
+
+import anthropic
 
 from . import policy
 from .tools import TOOLS, ToolError, Tools
@@ -14,7 +17,18 @@ run the tests, and say what you changed."""
 MODELS = {
     "haiku": {"model": "claude-haiku-5-5", "thinking": {"type": "disabled"}, "output_config": {"effort": "high"}},
     "opus": {"model": "claude-opus-5-5", "thinking": {"type": "adaptive"}, "output_config": {"effort": "high"}},
+    # A side comparison from another provider, run like Haiku (PRD L-08).
+    "deepseek-flash": {"model": "deepseek-flash", "thinking": {"type": "disabled"}, "output_config": {"effort": "high"}},
 }
+# Models served through another provider's Anthropic-compatible API: base URL and key variable.
+ENDPOINTS = {"deepseek-flash": ("https://api.deepseek.com/anthropic", "DEEPSEEK_API_KEY")}
+
+
+def make_client(model, max_retries=2):
+    if model in ENDPOINTS:
+        url, key = ENDPOINTS[model]
+        return anthropic.Anthropic(base_url=url, api_key=os.environ[key], max_retries=max_retries)
+    return anthropic.Anthropic(max_retries=max_retries)
 
 
 class Agent:

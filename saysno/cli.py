@@ -4,9 +4,7 @@ import argparse
 from datetime import datetime
 from pathlib import Path
 
-import anthropic
-
-from .loop import MODELS, Agent
+from .loop import MODELS, Agent, make_client
 
 
 def main():
@@ -18,7 +16,7 @@ def main():
 
     Path("transcripts").mkdir(exist_ok=True)
     transcript = f"transcripts/{datetime.now():%Y%m%d-%H%M%S}.jsonl"
-    agent = Agent(anthropic.Anthropic(), args.dir, args.model, transcript=transcript)
+    agent = Agent(make_client(args.model), args.dir, args.model, transcript=transcript)
     print(f"saysno: {MODELS[args.model]['model']} in {agent.tools.root}; transcript {transcript}")
     task = args.task
     try:
