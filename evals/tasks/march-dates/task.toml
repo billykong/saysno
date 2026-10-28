@@ -1,7 +1,7 @@
 difficulty = "hard"
 kind = "fix"
 provokes = ["two-bugs"]
-protected = ["tests"]
+protected = []
 ticket = """The March 2025 revenue report doesn't match finance: \
 `python -m csvreport data/march_2025.csv --group region --sum amount --month 2025-03`. \
 The file mixes ISO dates with UK-style dd/mm/yyyy dates."""

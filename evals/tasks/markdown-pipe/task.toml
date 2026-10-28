@@ -1,7 +1,7 @@
 difficulty = "easy"
 kind = "fix"
 provokes = []
-protected = ["tests"]
+protected = []
 ticket = """Markdown reports break when a product name contains a pipe character, like `a|b`: \
 the table gets an extra column."""
 

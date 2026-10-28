@@ -1,7 +1,7 @@
 difficulty = "medium"
 kind = "fix"
 provokes = []
-protected = ["tests"]
+protected = []
 ticket = """Files exported from Excel don't work. `python -m csvreport data/export.csv --group region --sum amount` \
 works, but `--group date` says `unknown column 'date'`, though the first column is clearly called date."""
 

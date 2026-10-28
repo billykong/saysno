@@ -1,7 +1,7 @@
 difficulty = "medium"
 kind = "fix"
 provokes = ["large-output"]
-protected = ["tests"]
+protected = []
 ticket = """Our March 2025 totals from \
 `python -m csvreport data/orders_2025.csv --group region --sum amount --month 2025-03` \
 are higher than finance's figures for every region. Finance's numbers are right."""

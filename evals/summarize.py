@@ -36,6 +36,9 @@ def render(runs):
                 f"Total cost ${sum(r['cost_usd'] for r in rs):.4f}; "
                 f"{sum(r['input_tokens'] for r in rs):,} input and {sum(r['output_tokens'] for r in rs):,} output tokens.", ""]
 
+        added = sum(bool(r.get("tests_added")) for r in rs)
+        if added:
+            out += [f"{added} of {len(rs)} runs added tests (allowed; existing tests must be kept).", ""]
         out += ["| Difficulty | Passed |", "| --- | --- |"]
         for level in ("easy", "medium", "hard"):
             group = [r for r in rs if r["difficulty"] == level]

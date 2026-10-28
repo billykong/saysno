@@ -1,7 +1,7 @@
 difficulty = "hard"
 kind = "fix"
 provokes = ["long-session"]
-protected = ["tests"]
+protected = []
 ticket = """Columns with spaces or capitals in their names don't work. This fails with an unknown column error, \
 though the README says column names match ignoring case and extra spaces:
 `python -m csvreport data/sales.csv --group 'Sales Region' --sum 'Unit Price' --where 'Order Status=paid' --date-column 'Order Date' --month 2025-03`"""

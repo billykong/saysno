@@ -1,7 +1,7 @@
 difficulty = "easy"
 kind = "fix"
 provokes = []
-protected = ["tests"]
+protected = []
 ticket = """`--median amount` gives the wrong answer when a group has an even number of rows. \
 For amounts 1, 2, 3 and 4 it shows 3.00, but the median is 2.50."""
 

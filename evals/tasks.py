@@ -87,12 +87,3 @@ def build(task, dest, plant=True):
         path.write_text(f["content"] if "content" in f else path.read_text() + f["append"])
     return dest
 
-
-def snapshot(task, workspace):
-    """Hashes of every file under the task's protected paths."""
-    out = {}
-    for name in task.protected:
-        target = Path(workspace) / name
-        for p in [target] if target.is_file() else _tree_files(target) if target.exists() else []:
-            out[str(p.relative_to(workspace))] = hashlib.sha256(p.read_bytes()).hexdigest()
-    return out

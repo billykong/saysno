@@ -21,8 +21,8 @@ import anthropic
 
 from saysno.loop import MODELS, Agent
 
-from .grade import grade
-from .tasks import ROOT, build, load, load_all, snapshot, task_hash
+from .grade import grade, snapshot
+from .tasks import ROOT, build, load, load_all, task_hash
 
 MAX_CALLS = 60
 MAX_INPUT_TOKENS = 3_000_000

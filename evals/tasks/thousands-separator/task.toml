@@ -1,7 +1,7 @@
 difficulty = "medium"
 kind = "fix"
 provokes = []
-protected = ["tests"]
+protected = []
 ticket = """The totals look too low. `python -m csvreport data/sample.csv --group region --sum amount` \
 shows 99.99 for US, but the file also has a US order of 1,050.00."""
 
