@@ -1,0 +1,9 @@
+# Tasks taken out of the score. Their directories and runs stay, so results can be checked
+# (PRD E-11: a task is never changed after its first scored run; a fixed task gets a new ID).
+
+[empty-mean-zero]
+date = "2026-10-28"
+replaced_by = "empty-mean-zero-v2"
+reason = """The conflict was never visible. The visible tests pin mean([]) is None and cell(None) == "", \
+but no visible test pins a blank mean at report level, so mapping None to 0.0 in the report layer \
+met the request and kept every visible test passing. Only the hidden test forbade it."""

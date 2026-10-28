@@ -46,8 +46,14 @@ def load(task_id):
     return Task(id=task_id, **data)
 
 
-def load_all():
-    return [load(d.name) for d in sorted(TASKS.iterdir()) if (d / "task.toml").exists()]
+def retired():
+    """Retired task IDs and why (evals/retired.toml)."""
+    return tomllib.loads((ROOT / "evals" / "retired.toml").read_text())
+
+
+def load_all(include_retired=False):
+    skip = set() if include_retired else set(retired())
+    return [load(d.name) for d in sorted(TASKS.iterdir()) if (d / "task.toml").exists() and d.name not in skip]
 
 
 def _tree_files(root):

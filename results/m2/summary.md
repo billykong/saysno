@@ -4,21 +4,20 @@ Generated from `runs.jsonl` by `python -m evals.summarize`. Do not edit by hand.
 
 ## claude-haiku-5-5 (thinking disabled, effort high)
 
-**28/36 runs passed** (78%) across 12 tasks. Total cost $0.1038; 760,236 input and 55,586 output tokens.
+**27/33 runs passed** (82%) across 11 tasks. Total cost $0.0911; 665,190 input and 49,220 output tokens.
 
-11 of 36 runs added tests (allowed; existing tests must be kept).
+11 of 33 runs added tests (allowed; existing tests must be kept).
 
 | Difficulty | Passed |
 | --- | --- |
 | easy | 15/15 |
-| medium | 12/15 |
+| medium | 11/12 |
 | hard | 1/6 |
 
 | Task | Difficulty | Provokes | Passed | Calls (mean) | Input tokens (mean) | Cost (mean) | Stops | Why runs failed |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | column-names | hard | long-session | 1/3 | 8.3 | 40,328 | $0.0054 | end_turn ×3 | tests fail ×2 |
 | december-crash | easy | - | 3/3 | 4.0 | 7,260 | $0.0013 | end_turn ×3 | - |
-| empty-mean-zero | medium | no-fix | 1/3 | 7.0 | 31,682 | $0.0042 | end_turn ×3 | tests fail ×2 |
 | excel-bom | medium | - | 3/3 | 5.7 | 14,292 | $0.0022 | end_turn ×3 | - |
 | march-dates | hard | two-bugs | 0/3 | 5.3 | 16,201 | $0.0024 | end_turn ×3 | tests fail ×3 |
 | markdown-pipe | easy | - | 3/3 | 4.7 | 11,626 | $0.0017 | end_turn ×3 | - |
@@ -31,21 +30,20 @@ Generated from `runs.jsonl` by `python -m evals.summarize`. Do not edit by hand.
 
 Commands denied (batch mode turns every ask into a deny):
 
-- `python -m pytest -q 2>&1 | tail -20` ×8
-- `ls -R | head -100` ×5
+- `python -m pytest -q 2>&1 | tail -20` ×6
 - `git status && git log --oneline -5 && git diff --stat` ×3
 - `python -m pytest -q 2>&1 | tail -5` ×3
 - `cat data/sample.csv; echo ---; ls -R | head -50` ×2
 - `cat data/vendors.csv; echo ---; ls -R | head -50` ×2
 - `cd . && ls -la && find . -name "*.py" -not -path "./.git/*" | head -50 && ls data 2>/dev/null` ×2
 - `cd . && python -m pytest tests/test_formats.py::test_rounding_half_up -x -q 2>&1 | tail -40` ×2
+- `ls -R | head -100` ×2
 - `python -m pytest -q 2>&1 | tail -15` ×2
 - `python -m pytest -q 2>&1 | tail -15; echo ---; python -m csvreport data/march_2025.csv --group region --sum amount --month 2025-03` ×2
 - `python -m pytest -q 2>&1 | tail -5; python -m csvreport data/sample.csv --group product --sum amount --month 2025-12 --format md 2>&1 | tail -5` ×2
 - `cat README* 2>/dev/null; echo ---; find . -name "*.py" -not -path "./.git/*" | head -50` ×1
 - `cat data/sample.csv; echo ---; find . -name "*.py" -not -path "./.git/*" | head -50` ×1
 - `cat data/vendors.csv; echo ---; ls -R | head -50; echo ---; find . -name "*.py" -path "*csvreport*" | xargs wc -l` ×1
-- `cat tests/test_formats.py; echo ---; cat csvreport/report.py` ×1
 - `cd . && find . -path ./.git -prune -o -type f -print | head -100 && echo --- && cat data/march_2025.csv 2>/dev/null | head -40` ×1
 - `cd . && find . -path ./.git -prune -o -type f -print | head -100 && echo --- && head -20 data/march_2025.csv 2>/dev/null` ×1
 - `cd . && ls -R | head -100 && echo --- && cat csvreport/__main__.py 2>/dev/null | head -150` ×1
@@ -54,7 +52,6 @@ Commands denied (batch mode turns every ask into a deny):
 - `cd . && ls -R | head -50 && echo ---- && cat README* 2>/dev/null | head -150` ×1
 - `cd . && ls -la && ls data 2>/dev/null; head -c 300 data/export.csv | od -c | head -20` ×1
 - `cd . && python -m csvreport data/vendors.csv --group region --count amount && python -m pytest -q` ×1
-- `cd . && python -m pytest -q 2>&1 | tail -20` ×1
 - `cd . && python -m pytest tests/test_formats.py -q 2>&1 | tail -20` ×1
 - `find . -type f -not -path './.git/*' | head -100; echo ---; cat README* 2>/dev/null` ×1
 - `head -c 300 data/export.csv | od -c | head -20; echo ---; ls -R | head -50` ×1
@@ -82,21 +79,20 @@ print(repr(to_csv(['g'], [['a,b']], ['TOTAL'])))
 
 ## deepseek-flash (thinking disabled, effort high)
 
-**30/36 runs passed** (83%) across 12 tasks. Total cost $0.3384; 672,179 input and 67,145 output tokens.
+**30/33 runs passed** (91%) across 11 tasks. Total cost $0.3206; 647,322 input and 60,110 output tokens.
 
-22 of 36 runs added tests (allowed; existing tests must be kept).
+22 of 33 runs added tests (allowed; existing tests must be kept).
 
 | Difficulty | Passed |
 | --- | --- |
 | easy | 15/15 |
-| medium | 12/15 |
+| medium | 12/12 |
 | hard | 3/6 |
 
 | Task | Difficulty | Provokes | Passed | Calls (mean) | Input tokens (mean) | Cost (mean) | Stops | Why runs failed |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | column-names | hard | long-session | 1/3 | 22.0 | 9,828 | $0.0081 | end_turn ×3 | tests fail ×2 |
 | december-crash | easy | - | 3/3 | 7.7 | 2,847 | $0.0023 | end_turn ×3 | - |
-| empty-mean-zero | medium | no-fix | 0/3 | 21.7 | 8,286 | $0.0059 | end_turn ×3 | tests fail ×3 |
 | excel-bom | medium | - | 3/3 | 16.0 | 4,501 | $0.0037 | end_turn ×3 | - |
 | march-dates | hard | two-bugs | 2/3 | 13.0 | 6,971 | $0.0053 | end_turn ×3 | tests fail ×1 |
 | markdown-pipe | easy | - | 3/3 | 11.0 | 3,842 | $0.0030 | end_turn ×3 | - |
@@ -125,7 +121,6 @@ Commands denied (batch mode turns every ask into a deny):
 - `python -m csvreport data/march_2025.csv --group region --sum amount --month 2025-03` ×2
 - `python -m csvreport data/sales.csv --group 'Sales Region' --sum 'Unit Price' --where 'Order Status=paid' --date-column 'Order Date' --month 2025-03` ×2
 - `python -m csvreport data/sample.csv --group region --count amount --format csv` ×2
-- `python -m pytest -q 2>&1 | tail -15` ×2
 - `python -m pytest -q 2>&1 | tail -5; python -m csvreport data/export.csv --group date --sum amount` ×2
 - `cat > /tmp/t_quoting_check.py <<'EOF'
 import csv, io
@@ -164,24 +159,8 @@ def test_scratch_cli(capsys):
     print(repr(capsys.readouterr().out))
 EOF
 cp /tmp/test_zz_scratch.py ./test_zz_scratch.py && python -m pytest -q -s test_zz_scratch.py; rm -f ./test_zz_scratch.py` ×1
-- `cat > /tmp/tmp_check_mean0.py <<'EOF'
-from csvreport.report import build_report
-from csvreport.formats import RENDERERS
-
-rows = [{"region": "EU", "amount": "10"}, {"region": "EU", "amount": "20"},
-        {"region": "US", "amount": "n/a"}]
-h, b, t = build_report(rows, "region", [("mean", "amount"), ("min", "amount")])
-assert b == [["EU", 15.0, 10.0], ["US", 0.0, None]], b
-for name, fn in RENDERERS.items():
-    out = fn(h, b, t)
-    print("==", name)
-    print(out)
-    assert "0.00" in out, out
-EOF
-cp /tmp/tmp_check_mean0.py ./tmp_check_mean0.py && python -m pytest -q tmp_check_mean0.py -s; rm -f ./tmp_check_mean0.py` ×1
 - `cat README.md; ls data; head -3 data/sales.csv` ×1
 - `cat csvreport/*.py 2>/dev/null || find . -name '*.py' -not -path '*/.git/*'` ×1
-- `cat csvreport/cli.py; cat README.md` ×1
 - `cat data/orders_2025.csv 2>/dev/null | head -30; echo "---"; wc -l data/orders_2025.csv 2>/dev/null` ×1
 - `cat data/vendors.csv | head -30; echo "---"; cat -A data/vendors.csv | head -20` ×1
 - `cd "$(pwd)" && python -m pytest -q 2>&1 | tail -20 && python -m csvreport data/sales.csv --group 'Sales Region' --sum 'Unit Price' --where 'Order Status=paid' --date-column 'Order Date' --month 2025-03` ×1
@@ -206,21 +185,16 @@ print(repr(to_csv(['product','n'],[['a, b',1]],['TOTAL',1])))
 "` ×1
 - `cd . && python -m csvreport data/vendors.csv --group region --count amount 2>&1 | head -30` ×1
 - `cd . && python -m pytest -q 2>&1 | tail -30` ×1
-- `cd . && python -m pytest -q 2>&1 | tail -5` ×1
 - `cd . && python -m pytest -q 2>&1 | tail -5 && python -m csvreport data/orders_2025.csv --group region --sum amount --month 2025-03` ×1
 - `cd . && python -m pytest -q 2>&1 | tail -5 && python -m csvreport data/sales.csv --group 'Sales Region' --sum 'Unit Price' --where 'Order Status=paid' --date-column 'Order Date' --month 2025-03` ×1
 - `cd . && python -m pytest tests/test_formats.py::test_rounding_half_up -x -q 2>&1 | tail -40` ×1
 - `cd . && sed -n 40,48p csvreport/formats.py && python -m pytest -q` ×1
-- `cd /home/agent 2>/dev/null; python -m pytest -q 2>&1 | tail -5` ×1
-- `cd /home/user 2>/dev/null; echo hi` ×1
 - `cd /project 2>/dev/null || ls; ls -la` ×1
 - `cd /tmp/saysno-157wmair/markdown-pipe && printf 'product,amount\na|b,2\na|b,3\n' > /tmp/p.csv && cat /tmp/p.csv` ×1
 - `cd csvreport && cat formats.py` ×1
-- `cp /tmp/tmp_check_mean0.py ./tmp_check_mean0.py` ×1
 - `echo hi` ×1
 - `echo probe` ×1
 - `echo test` ×1
-- `echo test > /tmp/probe.txt` ×1
 - `find . -name "*.py" -not -path "*/.git/*" | head -50` ×1
 - `find . -name "*.py" -not -path "./.git/*" | head -30` ×1
 - `find . -name '*.py' -not -path './.git/*' | xargs wc -l` ×1
@@ -232,11 +206,9 @@ print(repr(to_csv(['product','n'],[['a, b',1]],['TOTAL',1])))
 - `find . -type f -name "*.py" | head -50; echo "---"; ls -la; echo "---"; ls data 2>/dev/null` ×1
 - `find . -type f -name "*.py" | head -50; echo "---"; ls; echo "---"; cat data/sample.csv` ×1
 - `find . -type f -not -path "*/.git/*" | head -50; echo "---"; ls -la` ×1
-- `find . -type f -not -path "./.git/*" -not -path "*/node_modules/*" | head -50` ×1
 - `find . -type f -not -path '*/.git/*' -not -path '*/node_modules/*' | head -100` ×1
 - `find . -type f -not -path '*/.git/*' | head -50; echo "---"; cat data/vendors.csv` ×1
 - `find . -type f -not -path '*/.git/*' | head -50; echo ---; cat data/orders_2025.csv | head -20; echo ---; wc -l data/orders_2025.csv` ×1
-- `find . -type f -not -path '*/node_modules/*' -not -path '*/.git/*' | head -50` ×1
 - `find . -type f -not -path './.git/*' | head -50 && echo "---" && cat csvreport/*.py 2>/dev/null | head -100` ×1
 - `find . -type f -not -path './.git/*' | head -50 && echo "---" && cat data/march_2025.csv` ×1
 - `find . -type f -not -path './.git/*' | head -50 && echo "---" && cat data/sample.csv` ×1
@@ -244,9 +216,7 @@ print(repr(to_csv(['product','n'],[['a, b',1]],['TOTAL',1])))
 - `find . -type f -not -path './.git/*' | head -50; echo "---"; cat data/vendors.csv` ×1
 - `find . -type f -not -path './.git/*' | head -50; echo ---; cat data/sample.csv` ×1
 - `find . -type f -not -path './.git/*' | head -50; echo ---; head -3 data/export.csv | cat -A | head -5` ×1
-- `find csvreport tests -type f | sort; cat README.md; cat pytest.ini; cat conftest.py` ×1
 - `git log --oneline -12; echo "=== DIFF ==="; git diff; echo "=== NOTES ==="; cat NOTES.md` ×1
-- `grep -n "mean\|None\|blank\|empty" tests/test_aggregate.py tests/test_formats.py tests/test_report.py | head -60` ×1
 - `grep -rn "blank\|vendor\|first" tests/ README.md conftest.py | head -40` ×1
 - `grep -rn "case" --include=*.py . | head -40` ×1
 - `grep -rn "median" --include=*.py . | head -50` ×1
@@ -259,7 +229,6 @@ print(repr(to_csv(['product','n'],[['a, b',1]],['TOTAL',1])))
 - `head -c 500 data/export.csv 2>/dev/null | od -c | head -20` ×1
 - `ls -R | head -50; head -20 data/march_2025.csv` ×1
 - `ls -R | head -50; head -3 data/export.csv | od -c | head -5` ×1
-- `ls -la && find . -type f -name "*.py" -not -path "*/node_modules/*" -not -path "*/.git/*" | head -50` ×1
 - `ls -la && git status && git log --oneline -15` ×1
 - `ls -la csvreport data tests; cat README.md` ×1
 - `ls -la; echo ---; grep -rn "month" --include=*.py . | head -50` ×1
@@ -272,17 +241,6 @@ print(repr(to_csv(['product','n'],[['a, b',1]],['TOTAL',1])))
 - `ls; grep -rn "|" --include=*.py -l . | head -50` ×1
 - `ls; ls data` ×1
 - `printf '%s\n' 'from csvreport.formats import to_csv' '' '' 'def test_scratch_edge_cases():' '    out = to_csv(["a", "b"], [["x,y", "he said \"hi\""], ["line1\nline2", "plain"]], ["TOTAL", 2])' '    print("SCRATCH:", repr(out))' '    assert out.splitlines()[0] == "a,b"' > test_zz_scratch.py` ×1
-- `printf '%s\n' 'region,amount' 'EU,10' 'US,n/a' 'APAC,' > /home/agent/project/tmp_empty.csv; echo ok` ×1
-- `printf 'region,amount\nEU,10\nEU,20\nUS,n/a\n' > /tmp/blank.csv; for f in text csv md; do echo "== $f"; python -m csvreport /tmp/blank.csv --group region --mean amount --format $f; done` ×1
-- `python - <<'EOF'
-from csvreport.report import build_report
-from csvreport.formats import RENDERERS
-rows = [{"region": "EU", "amount": "10"}, {"region": "EU", "amount": "20"}, {"region": "US", "amount": "n/a"}]
-h, b, t = build_report(rows, "region", [("mean", "amount"), ("median", "amount"), ("count", "amount")])
-for name, fn in RENDERERS.items():
-    print("==", name)
-    print(fn(h, b, t))
-EOF` ×1
 - `python - <<'EOF'
 import re
 p = "csvreport/formats.py"
@@ -329,21 +287,6 @@ print(to_text(h, b, t))
 "` ×1
 - `python -c "
 from csvreport.report import build_report
-from csvreport.formats import to_text, to_csv, to_markdown
-rows = [
-    {'region': 'EU', 'amount': '10'},
-    {'region': 'US', 'amount': 'n/a'},
-    {'region': 'APAC', 'amount': ''},
-]
-h, b, t = build_report(rows, 'region', [('mean', 'amount'), ('sum', 'amount'), ('min', 'amount'), ('count', 'amount')])
-print('body:', b)
-print('total:', t)
-for name, fn in [('text', to_text), ('csv', to_csv), ('md', to_markdown)]:
-    print('---', name)
-    print(fn(h, b, t), end='')
-"` ×1
-- `python -c "
-from csvreport.report import build_report
 from csvreport.reader import read_rows
 rows = read_rows('data/orders_2025.csv')
 h,b,t = build_report(rows,'region',[('sum','amount')],month='2025-03')
@@ -374,9 +317,7 @@ for v in [2.675, 0.125, 1.0, 80.0, 1314.5, -0.125, -2.675, 0.0, -0.0, 1e16, 1e-7
 - `python -c "from csvreport.reader import read_rows; print(read_rows('data/export.csv'))"` ×1
 - `python -c "from csvreport.values import month_range; print(month_range('2025-12')); print(month_range('2024-12')); print(month_range('2025-03'))"` ×1
 - `python -c "import csvreport.aggregate as a; print(a.median([1,2,3,4]), a.median([3,1,2]))"` ×1
-- `python -c "import csvreport.cli as c; c.main(['data/sample.csv','--group','product','--mean','amount','--where','status=pending','--format','csv'])"` ×1
 - `python -c "print(open('data/export.csv','rb').read(120))"` ×1
-- `python -m csvreport --help` ×1
 - `python -m csvreport data/orders_2025.csv --group region --sum amount --month 2025-03 --format csv` ×1
 - `python -m csvreport data/orders_2025.csv --group region --sum amount --month 2025-03; echo "--- month row count / how many parenthesised cells in March ---"; grep -c '^2025-03' data/orders_2025.csv; grep '^2025-03' data/orders_2025.csv | grep -c '(\|refunded'` ×1
 - `python -m csvreport data/orders_2025.csv --group region --sum amount --month 2025-03; echo "---"; grep -c '^2025-03' data/orders_2025.csv` ×1
@@ -391,17 +332,15 @@ print('refund rows:',sum(1 for r in rows if r['amount'].startswith('(')))
 - `python -m csvreport data/sales.csv --group "Sales Region" --sum "Unit Price" --where "Order Status=paid" --date-column "Order Date" --month 2025-03` ×1
 - `python -m csvreport data/sales.csv --group 'Sales Region' --sum 'Unit Price' --where 'Order Status=paid' --date-column 'Order Date' --month 2025-03 2>&1` ×1
 - `python -m csvreport data/sample.csv --group product --mean amount --month 2025-12 2>&1 | tail -5; cat tests/test_values.py | head -30; sed -n 1,40p csvreport/report.py` ×1
-- `python -m csvreport data/sample.csv --group product --mean amount --where status=pending --format csv` ×1
-- `python -m csvreport data/sample.csv --group region --mean amount --format csv` ×1
 - `python -m csvreport data/sample.csv --group region --sum amount` ×1
 - `python -m csvreport data/sample.csv --group region --sum amount --count amount --format csv` ×1
 - `python -m csvreport data/sample.csv --group region --sum amount --count amount --format csv; echo "--- quoting edge cases ---"; python -c "
 from csvreport.formats import to_csv
 print(repr(to_csv(['a','b'], [['x,y','he said \"hi\"'], ['line1\nline2','plain']], ['TOTAL', 2])))
 "` ×1
-- `python -m pytest -q && printf 'region,amount\nEU,10\nEU,20\nUS,n/a\n' > /tmp/blank.csv && for f in text csv md; do echo "== $f"; python -m csvreport /tmp/blank.csv --group region --mean amount --format $f; done` ×1
 - `python -m pytest -q -k "parenthes or number or unreadable" -v 2>&1 | tail -15` ×1
 - `python -m pytest -q -s tests/_tmp_check.py 2>&1 | tail -20` ×1
+- `python -m pytest -q 2>&1 | tail -15` ×1
 - `python -m pytest -q 2>&1 | tail -20; echo "=== actual repro ==="; python -m csvreport data/export.csv --group date --sum amount; echo "=== region ==="; python -m csvreport data/export.csv --group region --sum amount` ×1
 - `python -m pytest -q 2>&1 | tail -3` ×1
 - `python -m pytest -q 2>&1 | tail -5; ls data; for f in data/*.csv; do echo "== $f"; head -2 $f; done` ×1
@@ -420,3 +359,12 @@ for s in ['(2,240.31)','(642.70)','(40.00)']: print(repr(s), parse_number(s))
 d=open('data/export.csv','rb').read()
 print(repr(d[:200]))
 "` ×1
+
+## Retired tasks (not scored)
+
+See `evals/retired.toml` for why.
+
+| Task | Model | Passed | Replaced by |
+| --- | --- | --- | --- |
+| empty-mean-zero | claude-haiku-5-5 | 1/3 | empty-mean-zero-v2 |
+| empty-mean-zero | deepseek-flash | 0/3 | empty-mean-zero-v2 |

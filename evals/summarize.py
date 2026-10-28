@@ -11,7 +11,7 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from .tasks import ROOT
+from .tasks import ROOT, retired
 
 
 def load_runs(results):
@@ -23,9 +23,11 @@ def mean(values):
 
 
 def render(runs):
+    gone = retired()
     by_model = defaultdict(list)
     for r in runs:
-        by_model[(r["model_id"], r["thinking"], r["effort"])].append(r)
+        if r["task"] not in gone:
+            by_model[(r["model_id"], r["thinking"], r["effort"])].append(r)
 
     out = ["# Results", "", "Generated from `runs.jsonl` by `python -m evals.summarize`. Do not edit by hand.", ""]
     for (model_id, thinking, effort), rs in sorted(by_model.items()):
@@ -66,6 +68,17 @@ def render(runs):
             out += ["Commands denied (batch mode turns every ask into a deny):", ""]
             out += [f"- `{cmd}` ×{n}" for cmd, n in sorted(denied.items(), key=lambda kv: (-kv[1], kv[0]))]
             out.append("")
+
+    old = [r for r in runs if r["task"] in gone]
+    if old:
+        out += ["## Retired tasks (not scored)", "", "See `evals/retired.toml` for why.", "",
+                "| Task | Model | Passed | Replaced by |", "| --- | --- | --- | --- |"]
+        groups = defaultdict(list)
+        for r in old:
+            groups[(r["task"], r["model_id"])].append(r)
+        for (task, model_id), rs in sorted(groups.items()):
+            out.append(f"| {task} | {model_id} | {sum(r['passed'] for r in rs)}/{len(rs)} | {gone[task]['replaced_by']} |")
+        out.append("")
     return "\n".join(out)
 
 

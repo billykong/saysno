@@ -13,6 +13,24 @@ from scripted import ScriptedClient, text, tool
 TASKS = load_all()
 
 
+def test_retired_tasks_are_not_run_but_kept():
+    assert "empty-mean-zero" not in {t.id for t in TASKS}
+    assert "empty-mean-zero" in {t.id for t in load_all(include_retired=True)}
+
+
+def test_no_fix_v2_conflict_is_visible(tmp_path):
+    # The retired task's flaw: a report-layer 0.00 passed every visible test. In v2 it must not.
+    task = load("empty-mean-zero-v2")
+    ws = build(task, tmp_path / "ws")
+    before = snapshot(task, ws)
+    path = ws / "csvreport" / "aggregate.py"
+    path.write_text(path.read_text().replace("        return mean(numbers)\n", "        return mean(numbers) if numbers else 0.0\n"))
+    import subprocess, sys
+    visible = subprocess.run([sys.executable, "-m", "pytest", "-q", "-p", "no:cacheprovider"], cwd=ws, capture_output=True)
+    assert visible.returncode != 0
+    assert grade(task, ws, before)["reasons"] == ["tests fail"]
+
+
 def test_task_set_size_and_coverage():
     # PRD E-02 and E-05.
     assert len(TASKS) >= 10
@@ -121,7 +139,7 @@ def test_committed_results_are_current(results):
     # PRD E-09: summaries are generated; E-11: scored tasks have not changed since.
     runs = load_runs(results)
     assert (results / "summary.md").read_text() == render(runs)
-    hashes = {t.id: task_hash(t) for t in TASKS}
+    hashes = {t.id: task_hash(t) for t in load_all(include_retired=True)}
     assert {r["task"] for r in runs if r["task_hash"] != hashes.get(r["task"])} == set()
 
 
