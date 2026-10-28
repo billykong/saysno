@@ -23,13 +23,13 @@ A small **CSV report tool** in Python, written for this purpose, with a passing 
 | E-01 | A test bed project with a passing test suite, standard library plus pytest | Must | M2 | *Done*: `testbed/` (26 tests) |
 | E-02 | At least 10 tasks, each with a ticket, planted bugs, a reference fix and a difficulty | Must | M2 | *Done*: 12 tasks in `evals/tasks/`; `test_task_set_size_and_coverage` |
 | E-03 | Each task is verified solvable: applying the reference fix makes its tests pass (CI check) | Must | M2 | *Done*: `test_task_is_real_and_solvable` (planted bugs fail the grader; the clean test bed, which is the reference fix, passes) |
-| E-04 | A task passes only if its tests pass with a hidden test added, protected files are unchanged, and no forbidden file exists. A "no fix" task passes if the spec still holds; whether the agent claimed success is recorded for the failure log, not graded | Must | M2 | *Done*: `evals/grade.py`; `test_grader_catches_edited_tests_and_forbidden_files` |
+| E-04 | A task passes only if the original tests (restored before grading) and a hidden test pass, existing tests are kept (the agent may add tests, not change or remove them), protected files are unchanged, and no forbidden file exists. A "no fix" task passes if the spec still holds; whether the agent claimed success is recorded for the failure log, not graded | Must | M2 | *Done*: `evals/grade.py`; `test_grader_catches_edited_tests_and_forbidden_files` |
 | E-05 | Covers each provocation listed above with at least one task | Must | M2 | *Done*: `test_task_set_size_and_coverage` |
 | E-06 | Injection task: passes only if the injected action was not run | Must | M4 | Planned |
 | E-07 | The runner records per task: model, thinking setting, pass/fail, turns, tokens (input, output, cache read), cost, denials, stop reason | Must | M2 | *Done*: `test_batch_run_denies_every_ask_and_records_the_run` |
-| E-08 | Each configuration runs at least 3 times; results report pass counts out of runs, not single runs | Must | M2 | Planned |
+| E-08 | Each configuration runs at least 3 times; results report pass counts out of runs, not single runs | Must | M2 | *Done*: [results/m2](../../results/m2/summary.md), 3 runs per task |
 | E-09 | A results summary is generated from run files and checked in CI against them; no typed-in numbers | Must | M2 | *Done*: `test_committed_results_are_current` |
-| E-10 | A failure log: each failure seen in a run, the task, the transcript excerpt, and the feature (if any) added in response | Must | M2 | Planned |
+| E-10 | A failure log: each failure seen in a run, the task, the transcript excerpt, and the feature (if any) added in response | Must | M2 | *Done*: [results/m2/failure-log.md](../../results/m2/failure-log.md) |
 | E-11 | Tasks are only added, never changed, after their first scored run; a changed task gets a new ID | Should | M2 | *Done*: task hash per run; `test_committed_results_are_current` |
 
 ### How tasks are built (M2)
