@@ -31,6 +31,7 @@ saysno runs model-chosen shell commands. The model is treated as untrusted, not 
 | S-08 | An action log records every tool call, the decision (allow, ask, deny) and the rule that made it | Must | M4 | Planned |
 | S-09 | The system prompt asks the model to run the tests before declaring done; the harness reports whether it did | Should | M4 | Planned |
 | S-10 | Every S-area control has a test with the scripted model: a call it blocks and a nearby call it allows | Must | M4 | Planned |
+| S-11 | A trailing `2>&1`, `\| head -N` or `\| tail -N` doesn't make a command ask: they can't start a second command (from F-02, where they sent most test runs to "ask") | Should | M3 | *Done*: `test_trim_endings_run_without_asking_when_switched_on`, `test_trim_endings_do_not_hide_a_second_command` |
 
 ## V - Verification
 

@@ -14,14 +14,14 @@ flowchart LR
   M7 --> M8["M8: Model comparison"]
 ```
 
-Evaluation comes second, not last, so every later milestone reports a score change. M3-M6 are the expected order; the failure log may reorder them or add one. After M2, M3 also takes the denial-message fix (T-06), because the M2 failure log shows the shell rule blocked 91% of shell calls ([F-02](../../results/m2/failure-log.md#f-02-the-shell-rule-said-no-to-almost-everything)). M7, verification, was added on 2026-10-28 in response to [F-03](../../results/m2/failure-log.md#f-03-done-without-running-the-tests), and the model comparison moved to M8 so it covers the verification features too.
+Evaluation comes second, not last, so every later milestone reports a score change. M3-M6 are the expected order; the failure log may reorder them or add one. After M2, M3 also takes the denial-message fix (T-06), because the M2 failure log shows the shell rule blocked 91% of shell calls ([F-02](../../results/m2/failure-log.md#f-02-the-shell-rule-said-no-to-almost-everything)). M7, verification, was added on 2026-10-28 in response to [F-03](../../results/m2/failure-log.md#f-03-done-without-running-the-tests), and the model comparison moved to M8 so it covers the verification features too. The M3 failure log adds two items for M4: the ticket's own command is still denied ([F-09](../../results/m3/failure-log.md#f-09-the-tickets-own-command-is-still-denied)), and a denied `git checkout` was redone with `edit_file` ([F-10](../../results/m3/failure-log.md#f-10-a-denied-git-checkout-was-redone-with-edit_file)).
 
 | Milestone | Scope | Exit criteria |
 | --- | --- | --- |
 | M0 | This PRD | Reviewed; open questions below answered or deferred |
 | M1 | **Done** 2026-10-25. Loop, four tools, allow/ask list, scripted model, transcript (L-01 to L-06, T-01 to T-05, S-01) | Fixes one task interactively on Haiku; CI green without an API key; at most 200 lines |
 | M2 | **Done** 2026-10-28. Test bed, tasks, runner, scorer, failure log (E-01 to E-11, S-02) | Bare loop scored on Haiku, 3 runs; failure log populated |
-| M3 | Output cap, just-in-time loading, cache-friendly prompt (C-01 to C-03, L-07) | Score and tokens before and after, on Haiku |
+| M3 | **Done** 2026-10-29. Output cap, just-in-time loading, cache-friendly prompt, denial messages, trim endings (C-01 to C-03, L-07, T-06, S-11) | Score and tokens before and after, on Haiku |
 | M4 | Sandbox, protected files, turn limit, budget, action log, verify-before-done (S-03 to S-10, E-06) | Every S control has a block and an allow test; 0 unconfirmed unsafe actions in runs |
 | M5 | Compaction (C-04, C-05) | The long task completes with compaction; one documented failure case |
 | M6 | Instruction file, progress notes (C-06, C-07) | Score before and after; a run that resumes from notes |

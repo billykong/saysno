@@ -109,6 +109,14 @@ def test_batch_run_denies_every_ask_and_records_the_run(tmp_path):
     assert (record["calls"], record["tool_calls"], record["input_tokens"]) == (3, 2, 30)
     assert record["final_text"] == "Fixed the median."
     assert record["model_id"] == "claude-haiku-5-5" and record["thinking"] == "disabled"
+    assert record["features"] == sorted(runner.FEATURES) and not record["tests_ran"]
+
+
+def test_bare_run_records_no_features(tmp_path):
+    # L-07: the runner can still score the M1 loop.
+    client = ScriptedClient([tool("bash", command="python -m pytest -q")], [text("done")])
+    record = runner.run_one(load("median-even"), "haiku", 1, tmp_path, make_client=lambda: client, features=set())
+    assert record["features"] == [] and record["tests_ran"] and record["bash_calls"] == 1
 
 
 class Forever(ScriptedClient):
@@ -129,6 +137,11 @@ def test_cost():
     assert runner.cost("claude-haiku-5-5", usage) == pytest.approx(3.0)  # over 100K: long-prompt price
     assert runner.cost("claude-opus-5-5", usage) == pytest.approx(24.0)
     assert runner.cost("deepseek-flash", {**usage, "cache_read_input_tokens": 1_000_000}) == pytest.approx(1.506)
+    # Cache writes cost 1.25x input, reads 0.1x; the long-prompt price counts cached tokens too.
+    cached = {"input_tokens": 1000, "output_tokens": 0, "cache_creation_input_tokens": 40_000, "cache_read_input_tokens": 50_000}
+    assert runner.cost("claude-haiku-5-5", cached) == pytest.approx((1000 * 0.10 + 40_000 * 0.125 + 50_000 * 0.01) / 1e6)
+    assert runner.cost("claude-haiku-5-5", {**cached, "cache_read_input_tokens": 100_000}) == pytest.approx(
+        (1000 * 0.50 + 40_000 * 0.625 + 100_000 * 0.05) / 1e6)
 
 
 RESULTS = sorted(p.parent for p in (ROOT / "results").glob("*/runs.jsonl"))
