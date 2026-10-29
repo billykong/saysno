@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 
 from evals import run as runner
+from saysno.loop import FEATURES
 from evals.grade import grade, snapshot
 from evals.summarize import load_runs, render
 from evals.tasks import ROOT, build, load, load_all, task_hash
@@ -117,6 +118,8 @@ def test_bare_run_records_no_features(tmp_path):
     client = ScriptedClient([tool("bash", command="python -m pytest -q")], [text("done")])
     record = runner.run_one(load("median-even"), "haiku", 1, tmp_path, make_client=lambda: client, features=set())
     assert record["features"] == [] and record["tests_ran"] and record["bash_calls"] == 1
+    assert record["transcript"].endswith("haiku-bare/median-even-1.jsonl")
+    assert runner.config("haiku", set(FEATURES) - {"steer"}) == "haiku-no-steer"
 
 
 class Forever(ScriptedClient):

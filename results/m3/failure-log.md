@@ -40,12 +40,29 @@ Numbers below are for the 12 scored tasks. Some differ slightly from the M2 fail
 
 - **Seen:** every Haiku run decided that finance's figures are paid-only orders, changed nothing, and said why. This is F-07, now in all 3 runs instead of 1. The planted bug, parentheses read as positive, was never found. Each run grepped the March rows (24,748 characters, capped to 10,000), then tried `python -m csvreport` with and without `--where status=paid` and was denied (F-09).
 - **What the M2 passes did differently:** one read the first 300 lines of the data file and then grepped for parentheses. The other read `values.py` and saw that parentheses weren't handled. The M2 failure grepped the same March rows *uncapped* and still failed. So the cap alone doesn't explain it. The steer (C-02: "don't read whole data files") may have, since it discourages the 300-line read that found the bug in M2.
-- **Response:** an ablation on this task, `--off steer` and `--off output-cap`, 3 runs each (about $0.02). If the steer is the cause, it is the first feature that costs a task, and the post should show it.
+- **Ablation** ([m3-ablation/](../m3-ablation/summary.md)): refunds-big-file alone, 3 runs with the steer off, then 3 with the cap off.
+
+  | Haiku, refunds-big-file | Passed | Runs that tested how `(241.52)` parses |
+  | --- | --- | --- |
+  | Bare loop (M2) | 2/3 | - |
+  | All five features (M3) | 0/3 | 0 |
+  | Steer off | 1/3 | 1 (the pass) |
+  | Cap off | 0/1, plus 2 cut off by the budget | 0 |
+
+- **What it shows:** across the 10 completed runs, 3 passed. The task sits near Haiku's limit whatever the setting, and 2/3 against 0/3 is a swing 3 runs can produce by chance. The steer is still the suspect: the only ablation pass is the one run that tried to test `parse_number` on a parenthesised amount (the command was denied, and it fixed the code anyway). Weak evidence, not a finding.
+- **Not the cap.** With the cap off, all 3 runs sent prompts of 197K to 212K tokens: one grep returned 300,000 characters (F-08 again). The one finished run cost $0.12, against $0.005 with the cap, and the three together spent $0.39 of a $0.25 budget before it stopped them. (The budget is checked before each call. Three runs in parallel, each with a call of about $0.10 in flight, went over it.) The cap is what keeps this task affordable.
+- **An unsupported claim:** M3 run 2's final message says "thousands separators, parenthesised negatives and quoted values are all handled by `parse_number`". The planted bug is that parenthesised negatives are not handled, and no tool call checked it. This is the case the claim audit (V-02, M7) is for.
+- **Response:** none for M3. The steer stays on, with this result recorded. M8's ablation (E-21, E-23) runs every task with each feature off, with more runs.
 
 ## F-12: DeepSeek refactored an existing test line (march-dates run 3)
 
 - **Seen:** fixed both bugs and added a regression test. It also rewrote `SAMPLE = ... / "sample.csv"` as `SAMPLE = DATA / "sample.csv"`. The grader's rule (F-01) is that existing test lines are kept as they are, so the run fails.
 - **Response:** none. The rule is strict on purpose: telling a harmless refactor from a weakened test is the kind of judgement the grader shouldn't make. One run.
+
+## F-13: the ablation overwrote its own transcripts (eval bug, fixed)
+
+- **Seen:** transcripts were named by model, task and run only. The cap-off arm reused the steer-off arm's file names, so the steer-off transcripts were lost. Its run records survive with `transcript: null` and a note.
+- **Response (done):** each feature set now gets its own transcript folder (`haiku-no-steer/`, `haiku-bare/`, ...); `test_bare_run_records_no_features` checks it.
 
 ## What held up
 

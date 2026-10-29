@@ -130,8 +130,14 @@ def redact(path):
     path.write_text(text)
 
 
+def config(model, features):
+    """Transcript folder name: runs with different features must not overwrite each other."""
+    off = sorted(set(FEATURES) - set(features))
+    return model if not off else f"{model}-bare" if not features else model + "".join(f"-no-{f}" for f in off)
+
+
 def run_one(task, model, run, out, make_client=None, spend=None, features=FEATURES):
-    transcript = out / "transcripts" / model / f"{task.id}-{run}.jsonl"
+    transcript = out / "transcripts" / config(model, features) / f"{task.id}-{run}.jsonl"
     transcript.parent.mkdir(parents=True, exist_ok=True)
     transcript.unlink(missing_ok=True)
     started = time.monotonic()
