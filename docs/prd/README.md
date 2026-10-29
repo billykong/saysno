@@ -8,7 +8,7 @@ This folder is the product requirements document (PRD): what we're building, why
 | --- | --- |
 | [01-overview.md](01-overview.md) | Problem, product, thesis, goals and non-goals, design principles, success measures |
 | [02-architecture.md](02-architecture.md) | The loop, the tools, context and memory: areas L, T and C |
-| [03-safety.md](03-safety.md) | Permissions, sandbox, stopping, threat model: area S |
+| [03-safety.md](03-safety.md) | Permissions, sandbox, stopping, verification, threat model: areas S and V |
 | [04-evaluation.md](04-evaluation.md) | Test bed, task set, scoring, model comparison: area E |
 | [05-roadmap.md](05-roadmap.md) | Milestones, the blog series (area P), open questions |
 
@@ -23,12 +23,13 @@ This folder is the product requirements document (PRD): what we're building, why
 | M4: Stopping and safety | Planned |
 | M5: Compaction | Planned |
 | M6: Memory | Planned |
-| M7: Model comparison | Planned |
+| M7: Verification | Planned (added 2026-10-28, from F-03) |
+| M8: Model comparison | Planned |
 
 ## Conventions
 
 - **Requirement IDs** take the form `<area>-<nn>`, e.g. `L-03` or `S-02`. IDs are stable: a dropped requirement is marked *Dropped*, never renumbered.
-- **Areas:** L loop, T tools, C context and memory, S safety, E evaluation, P posts.
+- **Areas:** L loop, T tools, C context and memory, S safety, V verification, E evaluation, P posts.
 - **Priority:** **Must** (the project isn't done without it), **Should** (expected; omission needs a stated reason) or **Could** (nice to have).
 - **Status:** *Done* (an automated test proves it, and the test is named), *Partial*, *Planned* or *Open question*.
 - "Done" means demonstrated by a test in this repo. A requirement met only by something nothing checks is *Partial*.

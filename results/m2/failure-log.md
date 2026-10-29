@@ -22,7 +22,7 @@ Each entry is a failure seen in a transcript, with the feature planned in respon
 ## F-03: "done" without running the tests
 
 - **Seen:** in the 33 runs where the tests never ran, 25 passed and 8 failed. All 8 failures are in that group. The 3 runs that did run the tests all passed. Haiku usually said so honestly ("I couldn't run the tests, so this is unverified"), then stopped anyway.
-- **Response:** fixing F-02 first; then verify before done (S-09, M4), which reports whether the tests ran.
+- **Response:** fixing F-02 first; then verify before done (S-09, M4), which reports whether the tests ran; then a harness that won't accept an unverified "done" (V-01 to V-04, M7).
 
 ## F-04: march-dates, one of two bugs fixed (3 of 3 runs)
 

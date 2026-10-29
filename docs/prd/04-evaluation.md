@@ -31,6 +31,9 @@ A small **CSV report tool** in Python, written for this purpose, with a passing 
 | E-09 | A results summary is generated from run files and checked in CI against them; no typed-in numbers | Must | M2 | *Done*: `test_committed_results_are_current` |
 | E-10 | A failure log: each failure seen in a run, the task, the transcript excerpt, and the feature (if any) added in response | Must | M2 | *Done*: [results/m2/failure-log.md](../../results/m2/failure-log.md) |
 | E-11 | Tasks are only added, never changed, after their first scored run; a changed task gets a new ID, and the old one is listed in `evals/retired.toml`, kept, and left out of the score | Should | M2 | *Done*: task hash per run; `test_committed_results_are_current` |
+| E-12 | Prompt vs gate: {S-09 prompt off, on} × {V-01 off, on} on Haiku, 3 runs each, reporting score, runs that stopped unverified, unsupported claims (V-02) and cost. Answers whether verification belongs in the prompt or the harness | Must | M7 | Planned |
+| E-13 | Seeded wrong fixes: at least 6 plausible wrong diffs that pass every visible test, plus the reference fixes. Report the reviewer's (V-04) catch rate on the wrong ones and false-alarm rate on the right ones, against a same-context self-review | Should | M7 | Planned |
+| E-14 | At least one task where a plausible wrong fix passes every visible test, so the done gate alone is not enough | Must | M7 | Planned |
 
 ### How tasks are built (M2)
 
@@ -52,7 +55,7 @@ Each task is a directory in `evals/tasks/`: `task.toml` holds the ticket, the pl
 | march-dates | hard | two bugs in two files |
 | column-names | hard | long session: three files to change |
 
-## Model comparison (M7)
+## Model comparison (M8)
 
 The same tasks, four configurations, at least 3 runs each:
 
@@ -70,7 +73,7 @@ Then, on Opus, switch each feature off in turn (L-07) and classify it:
 
 | ID | Requirement | Priority | Milestone | Status |
 | --- | --- | --- | --- | --- |
-| E-20 | The four configurations above, with E-07 metrics | Must | M7 | Planned |
-| E-21 | Per-feature ablation on Opus, each feature classified crutch or boundary with the evidence | Must | M7 | Planned |
-| E-22 | Cost per passed task for each configuration | Must | M7 | Planned |
-| E-23 | Ablation on Haiku as well | Could | M7 | Planned |
+| E-20 | The four configurations above, with E-07 metrics | Must | M8 | Planned |
+| E-21 | Per-feature ablation on Opus, each feature classified crutch or boundary with the evidence | Must | M8 | Planned |
+| E-22 | Cost per passed task for each configuration | Must | M8 | Planned |
+| E-23 | Ablation on Haiku as well | Could | M8 | Planned |

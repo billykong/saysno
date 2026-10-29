@@ -10,10 +10,11 @@ flowchart LR
   M3 --> M4["M4: Stopping and safety"]
   M4 --> M5["M5: Compaction"]
   M5 --> M6["M6: Memory"]
-  M6 --> M7["M7: Model comparison"]
+  M6 --> M7["M7: Verification"]
+  M7 --> M8["M8: Model comparison"]
 ```
 
-Evaluation comes second, not last, so every later milestone reports a score change. M3-M6 are the expected order; the failure log may reorder them or add one. After M2, M3 also takes the denial-message fix (T-06), because the M2 failure log shows the shell rule blocked 91% of shell calls ([F-02](../../results/m2/failure-log.md#f-02-the-shell-rule-said-no-to-almost-everything)).
+Evaluation comes second, not last, so every later milestone reports a score change. M3-M6 are the expected order; the failure log may reorder them or add one. After M2, M3 also takes the denial-message fix (T-06), because the M2 failure log shows the shell rule blocked 91% of shell calls ([F-02](../../results/m2/failure-log.md#f-02-the-shell-rule-said-no-to-almost-everything)). M7, verification, was added on 2026-10-28 in response to [F-03](../../results/m2/failure-log.md#f-03-done-without-running-the-tests), and the model comparison moved to M8 so it covers the verification features too.
 
 | Milestone | Scope | Exit criteria |
 | --- | --- | --- |
@@ -24,7 +25,8 @@ Evaluation comes second, not last, so every later milestone reports a score chan
 | M4 | Sandbox, protected files, turn limit, budget, action log, verify-before-done (S-03 to S-10, E-06) | Every S control has a block and an allow test; 0 unconfirmed unsafe actions in runs |
 | M5 | Compaction (C-04, C-05) | The long task completes with compaction; one documented failure case |
 | M6 | Instruction file, progress notes (C-06, C-07) | Score before and after; a run that resumes from notes |
-| M7 | Model comparison and ablation (E-20 to E-22) | Every feature classified crutch or boundary |
+| M7 | Done gate, claim audit, reproduce first, independent reviewer (V-01 to V-06, E-12 to E-14) | Prompt-vs-gate 2×2 reported on Haiku; reviewer catch and false-alarm rates on seeded wrong fixes; score and cost before and after |
+| M8 | Model comparison and ablation (E-20 to E-22) | Every feature classified crutch or boundary |
 
 ## P - Posts
 
@@ -39,8 +41,9 @@ One short post per milestone on [billykong.github.io](https://billykong.github.i
 | P-05 | The harness is the only thing that says no | M4 | Must |
 | P-06 | Compaction, and the detail it dropped | M5 | Should |
 | P-07 | Memory: what an agent should write down | M6 | Should |
-| P-08 | Does a better model make the harness pointless? | M7 | Must |
-| P-09 | Retrospective, in `billy-notes` | M7 | Should |
+| P-11 | Done means checked: who verifies the agent? | M7 | Must |
+| P-08 | Does a better model make the harness pointless? | M8 | Must |
+| P-09 | Retrospective, in `billy-notes` | M8 | Should |
 
 Posts P-04, P-06 and P-07 may merge if a milestone's result is small.
 
@@ -52,8 +55,8 @@ Posts P-04, P-06 and P-07 may merge if a milestone's result is small.
 
 | Item | Budget |
 | --- | --- |
-| Haiku runs, M1-M6 | Reported per post; stop and review if a milestone exceeds $10 |
-| Opus runs, M7 | Estimated from Haiku token counts before running; confirm before spending |
+| Haiku runs, M1-M7 | Reported per post; stop and review if a milestone exceeds $10 |
+| Opus runs, M8 | Estimated from Haiku token counts before running; confirm before spending |
 | Whole series | Target under $50; actual reported in P-08 |
 
 Development and CI use the scripted model. Any command that spends API credit is confirmed before it runs.
@@ -64,7 +67,7 @@ Development and CI use the scripted model. Any command that spends API credit is
 2. **Test bed domain: a CSV report tool** ([04-evaluation.md](04-evaluation.md#test-bed)).
 3. **Sandbox: Docker** (S-03). M1-M3 run without it, on a scratch copy of the test bed.
 4. **Thinking: each model as people run it.** Haiku without thinking, Opus with adaptive thinking; the setting is recorded with every score (E-07). A fifth configuration (Opus without thinking) only if the four leave a question open.
-5. **Tagged commits.** Each milestone's last commit is tagged `m1` ... `m7`, and each post links its tag so readers see the agent at that point (P-10).
+5. **Tagged commits.** Each milestone's last commit is tagged `m1` ... `m8` (`m7` before verification was added), and each post links its tag so readers see the agent at that point (P-10).
 
 ## Open questions
 
