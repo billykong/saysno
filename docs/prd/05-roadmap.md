@@ -45,7 +45,7 @@ One short post per milestone on [billykong.github.io](https://billykong.github.i
 | P-08 | Does a better model make the harness pointless? | M8 | Must |
 | P-09 | Retrospective, in `billy-notes` | M8 | Should |
 
-Posts P-04, P-06 and P-07 may merge if a milestone's result is small.
+Posts P-04, P-06 and P-07 may merge if a milestone's result is small. P-03 and P-04 were merged into one post on 2026-10-30, because the M3 fixes only make sense next to the M2 failures they answer.
 
 | ID | Requirement | Priority | Status |
 | --- | --- | --- | --- |
