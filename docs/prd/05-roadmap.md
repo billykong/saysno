@@ -36,8 +36,8 @@ One short post per milestone on [billykong.github.io](https://billykong.github.i
 | --- | --- | --- | --- |
 | P-01 | Overview: a coding agent is a loop; the memory and context ladders | M0 | Must |
 | P-02 | The loop is 200 lines; everything else is the harness | M1 | Must |
-| P-03 | What a bare loop gets wrong: the first scores and the failure log | M2 | Must |
-| P-04 | Cheap context wins | M3 | Should |
+| P-03 | What a bare loop gets wrong: the first scores and the failure log. Merged with P-04 as "Grading a coding agent: seven lessons the score didn't show" | M2 | Must |
+| P-04 | Cheap context wins. Merged into P-03 | M3 | Should |
 | P-05 | The harness is the only thing that says no | M4 | Must |
 | P-06 | Compaction, and the detail it dropped | M5 | Should |
 | P-07 | Memory: what an agent should write down | M6 | Should |
